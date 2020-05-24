@@ -1,5 +1,9 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { registerUser } from "../actions/authActions";
+import classnames from "classnames";
 
 class Register extends Component{
     //// constructor
@@ -14,6 +18,21 @@ class Register extends Component{
           userType: "",
           errors: {}
         };
+    }
+
+    componentDidMount() {
+        // If logged in and user navigates to Register page, should redirect them to dashboard
+        if (this.props.auth.isAuthenticated) {
+          this.props.history.push("/dashboard");
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.errors){
+            this.setState({
+                errors: nextProps.errors
+            });
+        }
     }
 
     // define onChange handler
@@ -34,6 +53,7 @@ class Register extends Component{
         };
 
         console.log(freshUser);
+        this.props.registerUser(freshUser, this.props.history);
     };
 
     //// implement render 
@@ -64,8 +84,12 @@ class Register extends Component{
                     error={errors.username}
                     id="username"
                     type="text"
+                    className={classnames("", {
+                        invalid: errors.username
+                      })}
                     />
                     <label htmlFor="username">Full Name</label>
+                    <span className="red-text">{errors.username}</span>
                 </div>
                 <div className="input-field col s12">
                     <input
@@ -74,8 +98,12 @@ class Register extends Component{
                     error={errors.loginId}
                     id="loginId"
                     type="text"
+                    className={classnames("", {
+                        invalid: errors.loginId
+                      })}
                     />
                     <label htmlFor="loginId">LoginId (Email)</label>
+                    <span className="red-text">{errors.loginId}</span>
                 </div>
                 <div className="input-field col s12">
                     <input
@@ -84,8 +112,12 @@ class Register extends Component{
                     error={errors.password}
                     id="password"
                     type="password"
+                    className={classnames("", {
+                        invalid: errors.password
+                      })}
                     />
                     <label htmlFor="password">Password</label>
+                    <span className="red-text">{errors.password}</span>
                 </div>
                 <div className="input-field col s12">
                     <input
@@ -94,8 +126,12 @@ class Register extends Component{
                     error={errors.password2}
                     id="password2"
                     type="password"
+                    className={classnames("", {
+                        invalid: errors.password2
+                      })}
                     />
                     <label htmlFor="password2">Confirm Password</label>
+                    <span className="red-text">{errors.password2}</span>
                 </div>
                 <div className="input-field col s12">
                     <input
@@ -129,4 +165,17 @@ class Register extends Component{
 
 }
 
-export default Register;
+Register.propTypes = {
+    registerUser: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired,
+    errors: PropTypes.object.isRequired
+  };
+  const mapStateToProps = state => ({
+    auth: state.auth,
+    errors: state.errors
+  });
+
+export default connect(
+    mapStateToProps,
+    { registerUser }
+  )(withRouter(Register));
