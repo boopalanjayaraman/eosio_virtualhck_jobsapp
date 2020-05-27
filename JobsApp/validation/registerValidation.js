@@ -11,6 +11,7 @@ module.exports = function validateRegisterInput(data){
     data.loginId = isEmpty(data.loginId) ? "" : data.loginId;
     data.password = isEmpty(data.password) ? "" : data.password;
     data.password2 = isEmpty(data.password2) ? "" : data.password2;
+    data.userType =  isEmpty(data.userType) ? "" : data.userType;
 
     //// perform validations
     if(Validator.isEmpty(data.username)){
@@ -38,6 +39,10 @@ module.exports = function validateRegisterInput(data){
 
     if(!Validator.equals(data.password, data.password2)){
         errors.password2 = "Passwords must match."
+    }
+
+    if(Validator.isEmpty(data.userType)){
+        errors.userType = "User Type field is required.";
     }
 
     return {

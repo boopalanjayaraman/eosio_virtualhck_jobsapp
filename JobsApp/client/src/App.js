@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch  } from "react-router-dom";
 import './App.css';
 
 import jwt_decode from "jwt-decode";
@@ -14,8 +14,8 @@ import Landing from "./layouts/Landing";
 import Login from "./views/Login"
 import Register from "./views/Register"
 
-import PrivateRoute from "./views/private-route/PrivateRoute";
-import Dashboard from "./views/dashboard/Dashboard";
+import PrivateRoute from "./views/private-route/privateRoute";
+import Dashboard from "./views/dashboard/dashboard";
 
 // Check for token to keep user logged in
 if (localStorage.jwtToken) {

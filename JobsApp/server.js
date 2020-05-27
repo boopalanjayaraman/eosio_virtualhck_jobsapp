@@ -4,6 +4,8 @@ const bodyParser = require("body-parser");
 const passport = require("passport");
 
 const users = require("./routes/api/users");
+const jobs = require("./routes/api/jobs");
+const jobagreements = require("./routes/api/jobagreements");
 
 const app = express();
 
@@ -31,6 +33,9 @@ require("./config/passport")(passport);
 
 //// map routes
 app.use("/api/users", users);
+//// map protected routes
+app.use("/api/jobs", jobs);
+app.use("/api/jobagreements", jobagreements);
 
 const port = process.env.PORT || 5000;
 

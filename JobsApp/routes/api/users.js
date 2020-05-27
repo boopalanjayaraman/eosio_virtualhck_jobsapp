@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
 const mongoose = require("mongoose");
+const passport = require("passport");
 
 //// load validations
 const validateRegisterInput = require("../../validation/registerValidation");
@@ -14,7 +15,7 @@ const UserModel = require("../../models/user");
 // @route POST api/users/register
 // @desc Register User
 // @access Public
-router.post("/register", (req, res)=>{
+router.post("/register",  (req, res)=>{
     // perform form validation
     const { errors, isValid } = validateRegisterInput(req.body);
 
@@ -91,8 +92,8 @@ router.post("/login", (req, res) => {
                 };
 
                 console.log('Login success. Creating token. Logging in user: ' + user.name.toString());
-                //// sign the token
-                jwt.sign(payload, keys.secretOrKey, { expiresIn: 259200 }, (err, token)=> {
+                //// sign the token - 86400 - 24 hours in seconds
+                jwt.sign(payload, keys.secretOrKey, { expiresIn: 86400 }, (err, token)=> {
                     res.json({
                         success: true,
                         token: "Bearer " + token
@@ -105,6 +106,49 @@ router.post("/login", (req, res) => {
         });
     })
     .catch(err => console.log(err));
+
+});
+
+// @route GET api/users/ping
+// @desc User Ping Api
+// @access Public
+router.get("/ping", (req, res) => {
+    
+    UserModel.findOne({})
+    .then(user => {
+        if(!user){
+            return res.status(500).json({error: "Database service is not up."});
+        }
+        else{
+            res.json({
+                success: true,
+                pingOutput: Date.now().toString()
+            });
+        }
+    })
+    .catch(err => console.log(err));
+
+});
+
+// @route GET api/users/ping
+// @desc User Ping with Auth Api
+// @access Public
+router.get("/pingAuth", passport.authenticate('jwt', {session: false}), (req, res) => {
+
+        UserModel.findOne({})
+        .then(user1 => {
+            if(!user1){
+                return res.status(500).json({error: "Database service is not up."});
+            }
+            else{
+                res.json({
+                    success: true,
+                    pingOutput: Date.now().toString()
+                });
+            }
+        })
+        .catch(err => console.log(err));
+    
 
 });
 

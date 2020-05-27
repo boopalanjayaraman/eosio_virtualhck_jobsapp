@@ -5,6 +5,20 @@ import { connect } from "react-redux";
 import { registerUser } from "../actions/authActions";
 import classnames from "classnames";
 
+import { withStyles } from "@material-ui/core/styles";
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl'
+
+
+const useStyles = (theme) => ({
+    select: {
+      margin : theme.spacing(2),
+    }
+  });
+  
+
 class Register extends Component{
     //// constructor
     constructor(){
@@ -15,7 +29,7 @@ class Register extends Component{
           loginId: "",
           password: "",
           password2: "",
-          userType: "",
+          userType: "individual",
           errors: {}
         };
     }
@@ -40,6 +54,11 @@ class Register extends Component{
         this.setState({ [e.target.id]: e.target.value });
     };
 
+    // define onChange handler
+    onUserTypeChange = e => {
+        this.setState({ userType : e.target.value });
+    };
+
     //define onSubmit handler
     onSubmit = e => {
         e.preventDefault();
@@ -52,13 +71,13 @@ class Register extends Component{
             userType: this.state.userType
         };
 
-        console.log(freshUser);
         this.props.registerUser(freshUser, this.props.history);
     };
 
     //// implement render 
     render(){
         const { errors } = this.state;
+        const { classes } = this.props;
 
         return(
             <div className="container">
@@ -134,15 +153,23 @@ class Register extends Component{
                     <span className="red-text">{errors.password2}</span>
                 </div>
                 <div className="input-field col s12">
-                    <input
-                    onChange={this.onChange}
-                    value={this.state.userType}
-                    error={errors.userType}
-                    id="userType"
-                    type="text"
-                    />
-                    <label htmlFor="userType">User Type</label>
+                        {/* <InputLabel id="userTypeLabel" style={{padding: "2px" }}>User Type</InputLabel> */}
+                        <Select
+                            labelId="userTypeLabel"
+                            id="userType"
+                            value={ this.state.userType}
+                            onChange={ this.onUserTypeChange}
+                            className={classnames("input-field col s12", {
+                                invalid: errors.userType
+                              })}
+                            >
+                                <MenuItem value="individual">Individual</MenuItem>
+                                <MenuItem value="organization">organization</MenuItem>
+                        </Select>
+                        <span className="red-text">{errors.userType}</span>
+                        {/* <label htmlFor="userType">User Type</label> */}
                 </div>
+                <br></br>
                 <div className="col s12" style={{ paddingLeft: "11.250px" }}>
                     <button
                     style={{
@@ -175,7 +202,9 @@ Register.propTypes = {
     errors: state.errors
   });
 
-export default connect(
+export default withStyles(useStyles)(
+    connect(
     mapStateToProps,
     { registerUser }
-  )(withRouter(Register));
+  )(withRouter(Register))
+  );

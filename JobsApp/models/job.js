@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const jobSchema = new Schema({
     _id: {
         type: mongoose.Schema.Types.ObjectId,
-        default: mongoose.Types.ObjectId() 
+        default: new mongoose.Types.ObjectId() 
     },
     description:{
         type: String,
@@ -63,7 +63,8 @@ const jobSchema = new Schema({
         required: true
     },
     startDate: {
-        type: Date
+        type: Date,
+        required: true
     },
     endDate : {
         type: Date
@@ -152,7 +153,7 @@ const jobSchema = new Schema({
         }
     },
     billingMode : {
-        type: String // fixed, hourly
+        type: String // fixed, hourly, monthly, daily
     }
 });
 

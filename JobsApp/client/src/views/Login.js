@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { loginUser } from "../../actions/authActions";
+import { loginUser } from "../actions/authActions";
 import classnames from "classnames";
 
 class Login extends Component{
@@ -50,9 +50,7 @@ class Login extends Component{
             password : this.state.password
         };
 
-        console.log(data);
-
-        this.props.loginUser(userData); 
+        this.props.loginUser(data); 
     };
 
     //// implement render 
@@ -80,16 +78,16 @@ class Login extends Component{
                     <div className="input-field col s12">
                       <input
                         onChange={this.onChange}
-                        value={this.state.email}
-                        error={errors.email}
-                        id="email"
+                        value={this.state.loginId}
+                        error={errors.loginId}
+                        id="loginId"
                         type="email"
                         className={classnames("", {
                             invalid: errors.email || errors.emailnotfound
                           })}
                       />
-                      <label htmlFor="email">Email</label>
-                      <span className="red-text">{errors.email} {errors.emailnotfound} </span>
+                      <label htmlFor="loginId">Login Id (Email)</label>
+                      <span className="red-text">{errors.loginId} {errors.emailnotfound} </span>
                     </div>
                     <div className="input-field col s12">
                       <input

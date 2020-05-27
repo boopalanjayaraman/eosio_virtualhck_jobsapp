@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 var jobAgreementSchema = new Schema({
     _id : {
         type: mongoose.Schema.Types.ObjectId,
-        default: mongoose.Types.ObjectId() 
+        default: new mongoose.Types.ObjectId() 
     },
     poster :{
         type: mongoose.Schema.Types.ObjectId,
@@ -28,6 +28,12 @@ var jobAgreementSchema = new Schema({
     },
     endDate:{
         type:Date
+    },
+    startDateNumber: {
+        type: Number //yyyyMMdd
+    },
+    endDateNumber: {
+        type: Number //yyyyMMdd
     },
     jobContractAccount:{
         type:String // blockchain smart contract account
