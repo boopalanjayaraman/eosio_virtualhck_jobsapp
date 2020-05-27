@@ -10,7 +10,7 @@ export const registerUser = (userData, history) => dispatch => {
     .post("/api/users/register", userData)
     .then(res => history.push("/login")) //redirecting to login on successful register
     .catch(err => 
-        dispatch({type: GET_ERRORS, payload: err.response.data})
+        dispatch(publishError(err))
         );
 };
 
@@ -29,12 +29,20 @@ export const loginUser = userData => dispatch => {
         dispatch(setCurrentUser(decoded));
     })
     .catch(err =>
-        dispatch({
-          type: GET_ERRORS,
-          payload: err.response.data
-        })
+        dispatch(publishError(err))
       );
 };
+
+
+// Log user out
+export const logoutUser = () => dispatch => {
+    // Remove token from local storage
+    localStorage.removeItem("jwtToken");
+    // Remove auth header for future requests
+    setAuthToken(false);
+    // Set current user to empty object {} which will set isAuthenticated to false
+    dispatch(setCurrentUser({}));
+  };
 
 // Set logged in user
 export const setCurrentUser = decoded => {
@@ -51,12 +59,10 @@ return {
     };
 };
 
-// Log user out
-export const logoutUser = () => dispatch => {
-    // Remove token from local storage
-    localStorage.removeItem("jwtToken");
-    // Remove auth header for future requests
-    setAuthToken(false);
-    // Set current user to empty object {} which will set isAuthenticated to false
-    dispatch(setCurrentUser({}));
-  };
+//// act on error
+export const publishError = (err) => {
+    return {
+            type: GET_ERRORS,
+            payload: err.response.data
+        };
+};

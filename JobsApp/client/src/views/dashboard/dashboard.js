@@ -9,6 +9,16 @@ class Dashboard extends Component {
         this.props.logoutUser();    
     };
 
+    onBrowseClick = e => {
+        e.preventDefault();
+           
+    };
+
+    onCreateClick = e => {
+        e.preventDefault();
+        this.props.createJob();
+    };
+
     render() {
         const { user } = this.props.auth;
 
@@ -19,10 +29,36 @@ class Dashboard extends Component {
                     <h4>
                     <b>Hey there,</b> {user.name.split(" ")[0]}
                     <p className="flow-text grey-text text-darken-1">
-                        You are logged into a full-stack{" "}
-                        <span style={{ fontFamily: "monospace" }}>Worksout</span> app
+                        You are now into the world of jobs - {" "}
+                        <span style={{ fontFamily: "monospace" }}>Worksout</span>.
                     </p>
                     </h4>
+                    <button
+                    style={{
+                        width: "200px",
+                        borderRadius: "3px",
+                        letterSpacing: "1.5px",
+                        marginTop: "1rem",
+                        marginRight: "1rem"
+                    }}
+                    onClick={this.onBrowseClick}
+                    className="btn btn-large waves-effect waves-light hoverable blue accent-3"
+                    >
+                    Browse Jobs
+                    </button>
+                    <button
+                    style={{
+                        width: "200px",
+                        borderRadius: "3px",
+                        letterSpacing: "1.5px",
+                        marginTop: "1rem",
+                        marginRight: "1rem"
+                    }}
+                    onClick={this.onCreateClick}
+                    className="btn btn-large waves-effect waves-light hoverable blue accent-3"
+                    >
+                    Create one
+                    </button>
                     <button
                     style={{
                         width: "150px",
@@ -31,9 +67,9 @@ class Dashboard extends Component {
                         marginTop: "1rem"
                     }}
                     onClick={this.onLogoutClick}
-                    className="btn btn-large waves-effect waves-light hoverable blue accent-3"
+                    className="btn btn-large waves-effect waves-light hoverable red accent-3"
                     >
-                    Logout
+                    Log out
                     </button>
                 </div>
                 </div>

@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const isEmpty = require("is-empty");
 const passport = require("passport");
 const dateFormat = require("dateformat");
+const Validator = require("validator");
 
 //// load validations
 const validateJobInput = require("../../validation/jobValidation");
@@ -30,6 +31,10 @@ router.post("/save", passport.authenticate('jwt', {session: false}), (req, res)=
         .then(job => {
             if(job){
                 assignJobValues(job, jobInput);
+                //// validate if the user is the creator (authorization)
+                if(!Validator.equals(job.postedBy, req.user.id)){
+                    return res.status(401).json({ _id: "Unauthorized edit attempt."});
+                }
                 //// update the job details in db
                 job.save()
                 .then(job => {
@@ -45,7 +50,9 @@ router.post("/save", passport.authenticate('jwt', {session: false}), (req, res)=
     }
     //// create a new job here
     var newJob = new JobModel({
-        _id : new mongoose.Types.ObjectId()});
+        _id : new mongoose.Types.ObjectId(),
+        postedBy : req.user.id.toString() });
+    //// assign other values
     assignJobValues(newJob, jobInput);
     //// save the job details to db
     newJob.save()
@@ -73,7 +80,6 @@ var assignJobValues = function(job, jobInput){
     job.startDateNumber= isEmpty(jobInput.startDate)? "" : dateFormat(jobInput.startDate,"yyyymmdd");
     job.endDateNumber= isEmpty(jobInput.endDate)? "" : dateFormat(jobInput.endDate,"yyyymmdd");
     job.skillsRequired= jobInput.skillsRequired;
-    job.postedBy= jobInput.postedBy;
     job.postingStatus= jobInput.postingStatus;
     job.location= jobInput.location;
     job.estimatedTime= jobInput.estimatedTime;
@@ -117,6 +123,36 @@ router.post("/updateContract", passport.authenticate('jwt', {session: false}), (
     }).catch(err => console.log(err));
 });
 
+// @route POST api/jobs/get
+// @desc Get Job
+// @access Public
+router.get("/get", passport.authenticate('jwt', {session: false}), (req, res)=>{
+    var jobData = req.body;
+    // perform form validation
+    const errors = {};
+    
+    jobData._id = isEmpty(jobData._id)? "": jobData._id;
+    if(Validator.isEmpty(jobData._id)){
+        errors._id = "Job Id field is required.";
+    }
+    const isValid = isEmpty(errors);
+
+    // if validation failed, send back the errors to front end.
+    if(!isValid){
+        return res.status(400).json(errors);
+    }
+    //// check if it is a existing & valid job
+    JobModel.findOne({_id : jobData._id})
+    .then(_job => {
+        if(_job){
+            res.json({ job: _job});
+        }
+        else{
+            return res.status(500).json({ _id: "Job with the given Id does not exist."});
+        }
+    }).catch(err => console.log(err));
+});
+
 
 // @route GET api/jobs/ping
 // @desc User Ping Api
@@ -125,7 +161,8 @@ router.get("/ping", passport.authenticate('jwt', {session: false}), (req, res) =
 
     res.json({
         success: true,
-        pingOutput: Date.now().toString()
+        pingOutput: Date.now().toString(),
+        user: req.user.id
     });
 
 });
