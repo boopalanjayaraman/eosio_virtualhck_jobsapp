@@ -35,7 +35,10 @@ router.post("/save", passport.authenticate('jwt', {session: false}), (req, res)=
                     var result = { _id: jobAgreement._id, action: "updated" };
                     res.json(result);
                 })
-                .catch(err => console.log(err));
+                .catch(err => {
+                    console.log(err);
+                    return res.status(500).json({save: "Error occurred. Could not save for unknown reasons."});
+                });
             }
             else{
                 return res.status(500).json({ _id: "Job Agreement with the given Id does not exist."});
@@ -52,7 +55,10 @@ router.post("/save", passport.authenticate('jwt', {session: false}), (req, res)=
         var result = { _id: jobAgreement._id, action: "created" };
         res.json(result);
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+        console.log(err);
+        return res.status(500).json({save: "Error occurred. Could not save for unknown reasons."});
+    });
 });
 
 
@@ -74,6 +80,35 @@ var assignJobAgreementValues = function(jobAgreement, jobAgreementInput){
     return jobAgreement;
 };
 
+// @route POST api/jobagreements/get
+// @desc get Job Agreement
+// @access Public
+router.post("/get", passport.authenticate('jwt', {session: false}), (req, res)=>{
+    var jobAgreementData = req.body;
+    // perform form validation
+    const errors = {};
+    
+    jobAgreementData._id = isEmpty(jobAgreementData._id)? "": jobAgreementData._id;
+    if(Validator.isEmpty(jobAgreementData._id)){
+        errors._id = "Job Agreement Id field is required.";
+    }
+    const isValid = isEmpty(errors);
+
+    // if validation failed, send back the errors to front end.
+    if(!isValid){
+        return res.status(400).json(errors);
+    }
+
+    JobAgreementModel.findOne({_id: jobAgreementInput._id})
+    .then(_jobAgreement => {
+        if(_jobAgreement){
+            res.json({ jobAgreement: _jobAgreement});
+        }
+        else{
+            return res.status(500).json({ _id: "Job Agreement with the given Id does not exist."});
+        }
+    }).catch(err => console.log(err));
+});
 
 // @route GET api/jobagreements/ping
 // @desc User Ping Api

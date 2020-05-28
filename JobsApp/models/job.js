@@ -97,6 +97,15 @@ const jobSchema = new Schema({
             message: ""
         }
     },
+    jobBids : [{
+        bidder: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Users"
+        },
+        remarks: {
+            type: String
+        }
+    }],
     jobBidsCount :{
         type: Number
     },

@@ -41,7 +41,10 @@ router.post("/save", passport.authenticate('jwt', {session: false}), (req, res)=
                     var result = { _id: job._id, action: "updated" };
                     res.json(result);
                 })
-                .catch(err => console.log(err));
+                .catch(err => {
+                    console.log(err);
+                    return res.status(500).json({save: "Error occurred. Could not save for unknown reasons."});
+                });
             }
             else{
                 return res.status(500).json({ _id: "Job with the given Id does not exist."});
@@ -60,7 +63,10 @@ router.post("/save", passport.authenticate('jwt', {session: false}), (req, res)=
         var result = { _id: job._id, action: "created" };
         res.json(result);
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+        console.log(err);
+        return res.status(500).json({save: "Error occurred. Could not save for unknown reasons."});
+    });
 
 });
 
@@ -115,7 +121,10 @@ router.post("/updateContract", passport.authenticate('jwt', {session: false}), (
                 var result = { _id: job._id, action: "updated" };
                 res.json(result);
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                console.log(err);
+                return res.status(500).json({save: "Error occurred. Could not save for unknown reasons."});
+            });
         }
         else{
             return res.status(500).json({ _id: "Job with the given Id does not exist."});
@@ -153,6 +162,92 @@ router.get("/get", passport.authenticate('jwt', {session: false}), (req, res)=>{
     }).catch(err => console.log(err));
 });
 
+// @route POST api/jobs/browse
+// @desc browse Jobs - input: {userId: xxxx, location: { city: xxxx, coordinates: {lon: xxx, lat: xxx} } }
+// This method will return all jobs for now for Version-1.
+// @access Public
+router.get("/browse", passport.authenticate('jwt', {session: false}), (req, res)=>{
+    var queryData = req.body;
+    
+    queryData.userId = isEmpty(queryData.userId)? "": queryData.userId;
+    if(Validator.isEmpty(queryData.userId)){
+        queryData.userId = req.user.id;
+    }
+
+    JobModel.find({})
+    .then(_jobs => {
+        if(_jobs){
+            res.json({ jobs: _jobs});
+        }
+        else{
+            res.json({ jobs:[] });
+        }
+    }).catch(err => console.log(err));
+});
+
+// @route POST api/jobs/get
+// @desc Get Job
+// @access Public
+router.get("/bid", passport.authenticate('jwt', {session: false}), (req, res)=>{
+    var bidData = req.body;
+    // perform form validation
+    const errors = {};
+    
+    bidData.userId = isEmpty(bidData.userId)? "": bidData.userId;
+    if(Validator.isEmpty(bidData.userId)){
+        errors.userId = "UserId field is required.";
+    }
+    bidData.jobId = isEmpty(bidData.jobId)? "": bidData.jobId;
+    if(Validator.isEmpty(bidData.jobId)){
+        errors.jobId = "JobId field is required.";
+    }
+    if(!Validator.equals(bidData.userId, req.user.id)){
+        errors.userId = "Unauthorized bid.";
+    }
+    bidData.remarks = isEmpty(bidData.remarks)? "": bidData.remarks;
+    
+    const isValid = isEmpty(errors);
+
+    // if validation failed, send back the errors to front end.
+    if(!isValid){
+        return res.status(400).json(errors);
+    }
+    //// check if it is a existing & valid job
+    var jobId = bidData.jobId;
+    JobModel.findOne({_id : jobId})
+    .then(_job => {
+        if(_job){
+            var bids = _job.jobBids;
+            if(bids){
+                var bid;
+                for(bid of bids){
+                    if(bid.bidder == bidData.userId){
+                        return res.status(500).json({ _id: "Cannot bid again. A bid has been already placed."});
+                    }
+                }
+                _job.jobBids.push({ bidder: bidData.userId, remarks: bidData.remarks });
+                _job.jobBidsCount += 1;
+            }
+            else {
+                _job.jobBids = [{ bidder: bidData.userId, remarks: bidData.remarks }];
+                _job.jobBidsCount = 1;
+            }
+            /// save changes
+            _job.save()
+            .then(job => {
+                var result = { _id: job._id, bidder: bidData.userId, bidCount:job.jobBidsCount, action: "updated" };
+                res.json(result);
+            })
+            .catch(err => {
+                console.log(err);
+                return res.status(500).json({save: "Error occurred. Could not save for unknown reasons."});
+            });
+        }
+        else{
+            return res.status(500).json({ _id: "Job with the given Id does not exist."});
+        }
+    }).catch(err => console.log(err));
+});
 
 // @route GET api/jobs/ping
 // @desc User Ping Api

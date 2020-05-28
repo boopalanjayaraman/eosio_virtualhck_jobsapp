@@ -15,7 +15,7 @@ const UserModel = require("../../models/user");
 // @route POST api/users/register
 // @desc Register User
 // @access Public
-router.post("/register",  (req, res)=>{
+router.post("/register",  (req, res)=>{ 
     // perform form validation
     const { errors, isValid } = validateRegisterInput(req.body);
 
@@ -53,7 +53,10 @@ router.post("/register",  (req, res)=>{
                         var result = { _id: user._id, loginId: user.email, name: user.name };
                         res.json(result);
                     })
-                    .catch(err => console.log(err));
+                    .catch(err => {
+                        console.log(err);
+                        return res.status(500).json({save: "Error occurred. Could not save for unknown reasons."});
+                    });
                }); //hash closure
             }); //gensalt closure
         }
