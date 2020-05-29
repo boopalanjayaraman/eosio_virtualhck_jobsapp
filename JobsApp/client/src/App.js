@@ -16,6 +16,8 @@ import Register from "./views/Register"
 
 import PrivateRoute from "./views/private-route/privateRoute";
 import Dashboard from "./views/dashboard/dashboard";
+import CreateJob from "./views/jobs/CreateJob";
+import ViewJob from "./views/jobs/ViewJob";
 
 // Check for token to keep user logged in
 if (localStorage.jwtToken) {
@@ -49,6 +51,8 @@ class App extends Component {
                 <Route exact path="/login" component={Login} />
                 <Switch>
                   <PrivateRoute exact path="/dashboard" component={Dashboard} />
+                  <PrivateRoute exact path="/createJob" component={CreateJob} />
+                  <PrivateRoute exact path="/viewJob" component={ViewJob} />
                 </Switch>
           </div>
         </Router>

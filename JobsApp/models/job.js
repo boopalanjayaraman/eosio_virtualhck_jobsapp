@@ -12,7 +12,7 @@ const jobSchema = new Schema({
         required: true,
         validate: {
             validator: function(text){
-                return text===null || text==="null" || text.length < 10 || text.length > 100;
+                return !(text===null || text==="null" || text.length < 10 || text.length > 100);
             },
             message: "Invalid Job Description. Should be non-empty and Should not exceed 100 characters. Should be of minimum 10 characters."
         }
@@ -22,7 +22,7 @@ const jobSchema = new Schema({
         required: true,
         validate: {
             validator: function(text){
-                return text===null || text==="null" || text.length < 10 || text.length > 500;
+                return !(text===null || text==="null" || text.length < 10 || text.length > 500);
             },
             message: "Invalid Job Summary. Should be non-empty and Should not exceed 500 characters. Should be of minimum 10 characters."
         }
@@ -32,9 +32,9 @@ const jobSchema = new Schema({
         required: true,
         validate: {
             validator: function(text){
-                return text===null || text==="null" || ((text != "full_time") && (text != "part_time") && (text != "consulting"));
+                return ((text == "full_time") || (text == "part_time") || (text == "consulting"));
             },
-            message: "Invalid Job Type. Should be either Full_Time or Part_Time."
+            message: "Invalid Job Type. Should be either full_time or part_time or consulting."
         }
     },
     jobSubType:{
@@ -75,26 +75,24 @@ const jobSchema = new Schema({
     endDateNumber: {
         type: Number //yyyyMMdd
     },
-    skillsRequired: [{
-        skill: { type: String },
-        prefExperience: { type: String}
-    }],
+    skillsRequired: [
+        { type: String }
+    ],
     postedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Users"
     },
     jobBidContract: {
         type: String, // blockchain smart contract account
-        required: true
     },
     postingStatus:{
         type: String,
         required: true,
         validate: {
             validator: function(text){
-                return text===null || text==="null" || ((text != "new") && (text != "processing") && (text != "filled") && (text != "closed") && (text != "expired"));
+                return ((text == "new") || (text == "processing") || (text == "filled") || (text == "closed")|| (text == "expired"));
             },
-            message: ""
+            message: "posting status should be new / processing / filled / closed / expired."
         }
     },
     jobBids : [{
@@ -140,6 +138,10 @@ const jobSchema = new Schema({
         currency: {
             type: String
         } // Currency
+    },
+    insuranceIncluded: {
+        type:Boolean,
+        default: false
     },
     insurance: {
         value:{

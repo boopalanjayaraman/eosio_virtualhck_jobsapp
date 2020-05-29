@@ -3,6 +3,7 @@ export const USER_LOADING = "USER_LOADING";
 export const SET_CURRENT_USER = "SET_CURRENT_USER";
 
 export const SET_CURRENT_JOB = "SET_CURRENT_JOB";
+export const VIEW_JOB = "VIEW_JOB";
 export const EDIT_JOB = "EDIT_JOB";
 export const BROWSE_JOBS = "BROWSE_JOBS";
 export const VIEW_CREATED_JOBS = "VIEW_CREATED_JOBS";

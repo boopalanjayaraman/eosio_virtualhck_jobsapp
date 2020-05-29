@@ -136,7 +136,8 @@ router.post("/updateContract", passport.authenticate('jwt', {session: false}), (
 // @desc Get Job
 // @access Public
 router.get("/get", passport.authenticate('jwt', {session: false}), (req, res)=>{
-    var jobData = req.body;
+    var jobData = req.query;
+    console.log(jobData);
     // perform form validation
     const errors = {};
     
@@ -148,6 +149,7 @@ router.get("/get", passport.authenticate('jwt', {session: false}), (req, res)=>{
 
     // if validation failed, send back the errors to front end.
     if(!isValid){
+        console.log(errors);
         return res.status(400).json(errors);
     }
     //// check if it is a existing & valid job
@@ -163,11 +165,11 @@ router.get("/get", passport.authenticate('jwt', {session: false}), (req, res)=>{
 });
 
 // @route POST api/jobs/browse
-// @desc browse Jobs - input: {userId: xxxx, location: { city: xxxx, coordinates: {lon: xxx, lat: xxx} } }
+// @desc browse Jobs - input: {userId: xxxx, location: { name: xxxx, coordinates: {lon: xxx, lat: xxx} } }
 // This method will return all jobs for now for Version-1.
 // @access Public
 router.get("/browse", passport.authenticate('jwt', {session: false}), (req, res)=>{
-    var queryData = req.body;
+    var queryData = req.query;
     
     queryData.userId = isEmpty(queryData.userId)? "": queryData.userId;
     if(Validator.isEmpty(queryData.userId)){
@@ -189,7 +191,7 @@ router.get("/browse", passport.authenticate('jwt', {session: false}), (req, res)
 // @desc Get Job
 // @access Public
 router.get("/bid", passport.authenticate('jwt', {session: false}), (req, res)=>{
-    var bidData = req.body;
+    var bidData = req.query;
     // perform form validation
     const errors = {};
     

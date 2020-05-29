@@ -11,10 +11,10 @@ module.exports = function validateJobInput(data){
     data.summary = isEmpty(data.summary) ? "" : data.summary;
     data.jobType = isEmpty(data.jobType) ? "" : data.jobType;
     data.workCategory = isEmpty(data.workCategory) ? "" : data.workCategory;
-    data.isRemote =  isEmpty(data.isRemote) ? "" : data.isRemote;
     data.postedOn =  isEmpty(data.postedOn) ? "" : data.postedOn;
     data.expiresOn =  isEmpty(data.expiresOn) ? "" : data.expiresOn;
     data.startDate =  isEmpty(data.startDate) ? "" : data.startDate;
+    data.postingStatus =  isEmpty(data.postingStatus) ? "" : data.postingStatus;
 
     //// perform validations
     if(Validator.isEmpty(data.description)){
@@ -33,10 +33,6 @@ module.exports = function validateJobInput(data){
         errors.workCategory = "Work Category field is required.";
     }
 
-    if(Validator.isEmpty(data.isRemote)){
-        errors.isRemote = "Is Remote Work? field is required.";
-    }
-
     if(Validator.isEmpty(data.postedOn)){
         errors.postedOn = "Posted On field is required.";
     }
@@ -47,6 +43,21 @@ module.exports = function validateJobInput(data){
 
     if(Validator.isEmpty(data.startDate)){
         errors.startDate = "Start Date field is required.";
+    }
+
+    if(!data.skillsRequired){
+        errors.skillsRequired = "Skills Required field is required.";
+    }
+
+    if(!data.estimatedTime || !data.estimatedTime.value){
+        if(!data.estimatedValue || !data.estimatedValue.value){
+            errors.estimatedTime = "Either estimated time / estimated value is required.";
+            errors.estimatedValue = "Either estimated time / estimated value is required.";
+        }
+    }
+
+    if(!data.location || !data.location.name){
+        errors.location = "Location field is required.";
     }
 
     return {

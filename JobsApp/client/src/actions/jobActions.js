@@ -2,7 +2,7 @@ import axios from "axios";
 import setAuthToken from "../utils/setAuthToken";
 import jwt_decode from "jwt-decode";
 
-import { GET_ERRORS, SET_VIEW_JOB, BROWSE_JOBS, SET_EDIT_JOB, VIEW_CREATED_JOBS, VIEW_APPLIED_JOBS, VIEW_PAST_JOBS } from "./types";
+import { GET_ERRORS, SET_CURRENT_JOB, BROWSE_JOBS, VIEW_JOB, VIEW_CREATED_JOBS, VIEW_APPLIED_JOBS, VIEW_PAST_JOBS } from "./types";
 
 //// Create Job
 export const createJobAction = (jobData, history) => dispatch => {
@@ -11,6 +11,7 @@ export const createJobAction = (jobData, history) => dispatch => {
     .then(res => {
         const { _id } = res.data;
         dispatch(viewJob(_id));
+        alert(_id);
         history.push("/viewJob");
     })  
     .catch(err => 
@@ -33,24 +34,22 @@ export const editJobAction = (jobData, history) => dispatch => {
 
 export const getJobToViewAction = (jobData, history) => dispatch => {
     axios
-    .get("/api/jobs/get", jobData)
+    .get("/api/jobs/get", { params:{ _id: jobData._id} })
     .then(res => {
         const { job } = res.data;
         dispatch(setCurrentJob(job));
-        history.push("/viewJob");
     })  
-    .catch(err => 
-        dispatch(publishError(err))
-        );
+    .catch(err => {
+        dispatch(publishError(err));
+    });
 };
 
 export const getJobToEditAction = (jobData, history) => dispatch => {
     axios
-    .get("/api/jobs/get", jobData)
+    .get("/api/jobs/get", { params:{ _id: jobData._id} })
     .then(res => {
         const { job } = res.data;
         dispatch(setCurrentJob(job));
-        history.push("/edit");
     })  
     .catch(err => 
         dispatch(publishError(err))
@@ -80,12 +79,20 @@ export const setCurrentJob = (jobData) => {
         };
 };
 
+//// set current job Id for view
+export const viewJob = (jobId) => {
+    return {
+            type: VIEW_JOB,
+            payload: { _id: jobId }
+        };
+};
+
 
 //// act on error
 export const publishError = (err) => {
     return {
             type: GET_ERRORS,
-            payload: err.response.data
+            payload: err
         };
 };
 

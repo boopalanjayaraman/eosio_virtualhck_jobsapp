@@ -84,7 +84,7 @@ var assignJobAgreementValues = function(jobAgreement, jobAgreementInput){
 // @desc get Job Agreement
 // @access Public
 router.post("/get", passport.authenticate('jwt', {session: false}), (req, res)=>{
-    var jobAgreementData = req.body;
+    var jobAgreementData = req.query;
     // perform form validation
     const errors = {};
     

@@ -11,12 +11,12 @@ class Dashboard extends Component {
 
     onBrowseClick = e => {
         e.preventDefault();
-           
+        this.props.history.push("/browseJobs");
     };
 
     onCreateClick = e => {
         e.preventDefault();
-        this.props.createJob();
+        this.props.history.push("/createJob"); 
     };
 
     render() {
