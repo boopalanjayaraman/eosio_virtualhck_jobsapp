@@ -196,7 +196,7 @@
                     "type": "int32"
                 },
                 {
-                    "name": "progress",
+                    "name": "progressVal",
                     "type": "int8"
                 },
                 {
@@ -240,7 +240,7 @@
                     "type": "int32"
                 },
                 {
-                    "name": "progress",
+                    "name": "progressVal",
                     "type": "int8"
                 }
             ]
@@ -310,6 +310,10 @@
                 {
                     "name": "perDaySalary",
                     "type": "int16"
+                },
+                {
+                    "name": "approved",
+                    "type": "bool"
                 }
             ]
         },

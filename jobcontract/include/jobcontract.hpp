@@ -21,7 +21,7 @@ CONTRACT jobcontract : public contract {
     ACTION setserterms(uint64_t jobId, double value, vector<int8_t> paymentMilestones);
     ACTION acceptjob(uint64_t jobId);
     ACTION checkinwork(uint64_t jobId, int32_t date, double units);
-    ACTION setprogress(uint64_t jobId, int32_t date, int8_t progress);
+    ACTION setprogress(uint64_t jobId, int32_t date, int8_t progressVal);
     ACTION apprcheckins(uint64_t jobId);
     ACTION apprprogress(uint64_t jobId);
     ACTION terminate(uint64_t jobId); // by employer
@@ -65,9 +65,9 @@ CONTRACT jobcontract : public contract {
       name employee;
       int32_t startDate = 0;
       int32_t endDate = 0;
-      double initAdvance = 0;
-      double advanceToSubtract = 0;
-      double totalPaidSum = 0;
+      double initAdvance = 0; //not used currently
+      double advanceToSubtract = 0; //not used currently
+      double totalPaidSum = 0; 
       int8_t status;
       int8_t jobType;
       bool accepted = false;
@@ -82,6 +82,7 @@ CONTRACT jobcontract : public contract {
       int32_t date;
       double dayUnit;
       int16_t perDaySalary;
+      bool approved;
     };
 
     TABLE checkins {
@@ -99,14 +100,14 @@ CONTRACT jobcontract : public contract {
     //progress  - milestones
     struct progress{
       int32_t date;
-      int8_t progress;
+      int8_t progressVal;
       bool approved;
     };
 
     TABLE workprogress {
       uint64_t jobId;
       double value = 0;
-      vector<int8_t> paymentMilestones;
+      vector<int8_t> paymentMilestones; //not used currently. Just a record.
       vector<progress> progresses;
       auto primary_key() const { return jobId; }
     };
