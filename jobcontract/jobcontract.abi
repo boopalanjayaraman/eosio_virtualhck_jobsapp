@@ -1,0 +1,481 @@
+{
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT ",
+    "version": "eosio::abi/1.1",
+    "types": [],
+    "structs": [
+        {
+            "name": "acceptjob",
+            "base": "",
+            "fields": [
+                {
+                    "name": "jobId",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
+            "name": "accounts",
+            "base": "",
+            "fields": [
+                {
+                    "name": "owner",
+                    "type": "name"
+                },
+                {
+                    "name": "balance",
+                    "type": "asset"
+                }
+            ]
+        },
+        {
+            "name": "apprcheckins",
+            "base": "",
+            "fields": [
+                {
+                    "name": "jobId",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
+            "name": "apprprogress",
+            "base": "",
+            "fields": [
+                {
+                    "name": "jobId",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
+            "name": "checkins",
+            "base": "",
+            "fields": [
+                {
+                    "name": "jobId",
+                    "type": "uint64"
+                },
+                {
+                    "name": "location",
+                    "type": "string"
+                },
+                {
+                    "name": "perDaySalary",
+                    "type": "int16"
+                },
+                {
+                    "name": "paymentFrequency",
+                    "type": "int8"
+                },
+                {
+                    "name": "timesheets",
+                    "type": "timesheet[]"
+                }
+            ]
+        },
+        {
+            "name": "checkinwork",
+            "base": "",
+            "fields": [
+                {
+                    "name": "jobId",
+                    "type": "uint64"
+                },
+                {
+                    "name": "date",
+                    "type": "int32"
+                },
+                {
+                    "name": "units",
+                    "type": "float64"
+                }
+            ]
+        },
+        {
+            "name": "create",
+            "base": "",
+            "fields": [
+                {
+                    "name": "employer",
+                    "type": "name"
+                },
+                {
+                    "name": "employee",
+                    "type": "name"
+                },
+                {
+                    "name": "jobId",
+                    "type": "uint64"
+                },
+                {
+                    "name": "jobType",
+                    "type": "int8"
+                }
+            ]
+        },
+        {
+            "name": "issue",
+            "base": "",
+            "fields": [
+                {
+                    "name": "to",
+                    "type": "name"
+                },
+                {
+                    "name": "quantity",
+                    "type": "asset"
+                }
+            ]
+        },
+        {
+            "name": "jobs",
+            "base": "",
+            "fields": [
+                {
+                    "name": "id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "employer",
+                    "type": "name"
+                },
+                {
+                    "name": "employee",
+                    "type": "name"
+                },
+                {
+                    "name": "startDate",
+                    "type": "int32"
+                },
+                {
+                    "name": "endDate",
+                    "type": "int32"
+                },
+                {
+                    "name": "initAdvance",
+                    "type": "float64"
+                },
+                {
+                    "name": "advanceToSubtract",
+                    "type": "float64"
+                },
+                {
+                    "name": "totalPaidSum",
+                    "type": "float64"
+                },
+                {
+                    "name": "status",
+                    "type": "int8"
+                },
+                {
+                    "name": "jobType",
+                    "type": "int8"
+                },
+                {
+                    "name": "accepted",
+                    "type": "bool"
+                }
+            ]
+        },
+        {
+            "name": "leave",
+            "base": "",
+            "fields": [
+                {
+                    "name": "jobId",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
+            "name": "progress",
+            "base": "",
+            "fields": [
+                {
+                    "name": "date",
+                    "type": "int32"
+                },
+                {
+                    "name": "progress",
+                    "type": "int8"
+                },
+                {
+                    "name": "approved",
+                    "type": "bool"
+                }
+            ]
+        },
+        {
+            "name": "setempterms",
+            "base": "",
+            "fields": [
+                {
+                    "name": "jobId",
+                    "type": "uint64"
+                },
+                {
+                    "name": "location",
+                    "type": "string"
+                },
+                {
+                    "name": "perDaySalary",
+                    "type": "int16"
+                },
+                {
+                    "name": "paymentFrequency",
+                    "type": "int16"
+                }
+            ]
+        },
+        {
+            "name": "setprogress",
+            "base": "",
+            "fields": [
+                {
+                    "name": "jobId",
+                    "type": "uint64"
+                },
+                {
+                    "name": "date",
+                    "type": "int32"
+                },
+                {
+                    "name": "progress",
+                    "type": "int8"
+                }
+            ]
+        },
+        {
+            "name": "setserterms",
+            "base": "",
+            "fields": [
+                {
+                    "name": "jobId",
+                    "type": "uint64"
+                },
+                {
+                    "name": "value",
+                    "type": "float64"
+                },
+                {
+                    "name": "paymentMilestones",
+                    "type": "bytes"
+                }
+            ]
+        },
+        {
+            "name": "settimeline",
+            "base": "",
+            "fields": [
+                {
+                    "name": "jobId",
+                    "type": "uint64"
+                },
+                {
+                    "name": "startDate",
+                    "type": "int32"
+                },
+                {
+                    "name": "endDate",
+                    "type": "int32"
+                },
+                {
+                    "name": "initAdvance",
+                    "type": "float64"
+                }
+            ]
+        },
+        {
+            "name": "terminate",
+            "base": "",
+            "fields": [
+                {
+                    "name": "jobId",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
+            "name": "timesheet",
+            "base": "",
+            "fields": [
+                {
+                    "name": "date",
+                    "type": "int32"
+                },
+                {
+                    "name": "dayUnit",
+                    "type": "float64"
+                },
+                {
+                    "name": "perDaySalary",
+                    "type": "int16"
+                }
+            ]
+        },
+        {
+            "name": "transfer",
+            "base": "",
+            "fields": [
+                {
+                    "name": "from",
+                    "type": "name"
+                },
+                {
+                    "name": "to",
+                    "type": "name"
+                },
+                {
+                    "name": "quantity",
+                    "type": "asset"
+                }
+            ]
+        },
+        {
+            "name": "userjobs",
+            "base": "",
+            "fields": [
+                {
+                    "name": "user",
+                    "type": "name"
+                },
+                {
+                    "name": "employedjobs",
+                    "type": "uint64[]"
+                },
+                {
+                    "name": "createdjobs",
+                    "type": "uint64[]"
+                }
+            ]
+        },
+        {
+            "name": "workprogress",
+            "base": "",
+            "fields": [
+                {
+                    "name": "jobId",
+                    "type": "uint64"
+                },
+                {
+                    "name": "value",
+                    "type": "float64"
+                },
+                {
+                    "name": "paymentMilestones",
+                    "type": "bytes"
+                },
+                {
+                    "name": "progresses",
+                    "type": "progress[]"
+                }
+            ]
+        }
+    ],
+    "actions": [
+        {
+            "name": "acceptjob",
+            "type": "acceptjob",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "apprcheckins",
+            "type": "apprcheckins",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "apprprogress",
+            "type": "apprprogress",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "checkinwork",
+            "type": "checkinwork",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "create",
+            "type": "create",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "issue",
+            "type": "issue",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "leave",
+            "type": "leave",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "setempterms",
+            "type": "setempterms",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "setprogress",
+            "type": "setprogress",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "setserterms",
+            "type": "setserterms",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "settimeline",
+            "type": "settimeline",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "terminate",
+            "type": "terminate",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "transfer",
+            "type": "transfer",
+            "ricardian_contract": ""
+        }
+    ],
+    "tables": [
+        {
+            "name": "accounts",
+            "type": "accounts",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "checkins",
+            "type": "checkins",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "jobs",
+            "type": "jobs",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "userjobs",
+            "type": "userjobs",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "workprogress",
+            "type": "workprogress",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        }
+    ],
+    "ricardian_clauses": [],
+    "variants": []
+}
