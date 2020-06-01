@@ -84,7 +84,10 @@ class Register extends Component{
             loginId: this.state.loginId,
             password: this.state.password,
             password2: this.state.password2,
-            userType: this.state.userType
+            userType: this.state.userType,
+            accountName: this.state.accountName,
+            authority: this.state.authority,
+            publicKey: this.state.publicKey
         };
 
         this.props.registerUser(freshUser, this.props.history);

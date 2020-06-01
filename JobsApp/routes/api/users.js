@@ -36,7 +36,10 @@ router.post("/register",  (req, res)=>{
                 name: req.body.username,
                 email: req.body.loginId,
                 password: req.body.password,
-                userType: req.body.userType
+                userType: req.body.userType,
+                accountName: req.body.accountName,
+                authority: req.body.authority,
+                publickey: req.body.publickey
             });
             //// add salt & hash password before saving.
             bcrypt.genSalt(12, (err, salt) => {
@@ -91,7 +94,9 @@ router.post("/login", (req, res) => {
                 const payload = {
                     id: user._id,
                     name: user.name,
-                    loginId: user.email
+                    loginId: user.email,
+                    accountName: user.accountName,
+                    authority: user.authority
                 };
 
                 console.log('Login success. Creating token. Logging in user: ' + user.name.toString());
