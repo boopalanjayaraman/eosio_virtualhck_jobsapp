@@ -87,7 +87,7 @@ class Register extends Component{
             userType: this.state.userType,
             accountName: this.state.accountName,
             authority: this.state.authority,
-            publicKey: this.state.publicKey
+            publickey: this.state.publicKey // notice the casing of variable "public`k`ey"
         };
 
         this.props.registerUser(freshUser, this.props.history);

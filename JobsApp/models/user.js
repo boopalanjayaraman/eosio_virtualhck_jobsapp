@@ -27,6 +27,14 @@ const userSchema = new Schema({
         type: Date,
         default: Date.now,
     },
+    accountName: {
+        type: String,
+        default: ''
+    },
+    authority: {
+        type: String,
+        default: ''
+    },
     publickey: {
         type: String,
         default: ''
