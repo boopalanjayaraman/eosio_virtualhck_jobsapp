@@ -32,7 +32,7 @@ const jobSchema = new Schema({
         required: true,
         validate: {
             validator: function(text){
-                return ((text == "full_time") || (text == "part_time") || (text == "consulting"));
+                return ((text == "full_time") || (text == "part_time") || (text == "consulting") || (text == "services"));
             },
             message: "Invalid Job Type. Should be either full_time or part_time or consulting."
         }

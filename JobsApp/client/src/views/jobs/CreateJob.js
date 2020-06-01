@@ -315,6 +315,7 @@ class CreateJob extends Component{
                                     <MenuItem value="full_time">Full Time</MenuItem>
                                     <MenuItem value="part_time">Part Time</MenuItem>
                                     <MenuItem value="consulting">Consulting</MenuItem>
+                                    <MenuItem value="services">Services</MenuItem> 
                             </Select>
                             <span className="red-text">{errors.jobType}</span>
                     </FormControl>
@@ -631,8 +632,8 @@ CreateJob.propTypes = {
     errors: PropTypes.object.isRequired
   };
   const mapStateToProps = state => ({
-    errors: state.errors,
-    auth: state.auth
+    auth: state.auth,
+    errors: state.errors
   });
 
 export default withStyles(useStyles)(

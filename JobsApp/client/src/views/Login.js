@@ -101,7 +101,7 @@ class Login extends Component{
                           })}
                       />
                       <label htmlFor="password">Password</label>
-                      <span className="red-text"> {errors.password} {errors.passwordincorrect} </span>
+                      <span className="red-text"> {errors.password} {errors.passwordincorrect} {errors.error} </span>
                     </div>
                     <div className="col s12" style={{ paddingLeft: "11.250px" }}>
                       <button

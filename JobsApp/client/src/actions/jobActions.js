@@ -11,7 +11,7 @@ export const createJobAction = (jobData, history) => dispatch => {
     .then(res => {
         const { _id } = res.data;
         dispatch(viewJob(_id));
-        alert(_id);
+        alert("success: debug info: id="+ _id);
         history.push("/viewJob");
     })  
     .catch(err => 
@@ -92,7 +92,7 @@ export const viewJob = (jobId) => {
 export const publishError = (err) => {
     return {
             type: GET_ERRORS,
-            payload: err
+            payload: err.response.data
         };
 };
 

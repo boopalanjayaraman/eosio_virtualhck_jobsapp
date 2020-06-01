@@ -11,6 +11,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl'
 
+//scatter js
+import { logout, connectToScatter, loginToScatter} from '../utils/scatterfunctions'
 
 const useStyles = (theme) => ({
     select: {
@@ -30,6 +32,9 @@ class Register extends Component{
           password: "",
           password2: "",
           userType: "individual",
+          accountName: "",
+          publicKey: "",
+          authority: "",
           errors: {}
         };
     }
@@ -57,6 +62,17 @@ class Register extends Component{
     // define onChange handler
     onUserTypeChange = e => {
         this.setState({ userType : e.target.value });
+    };
+
+    onScatterLoginClick = e =>{
+        e.preventDefault();
+        connectToScatter("Whatsout-JobsApp")
+        .then(() => { 
+                var result = loginToScatter().then((result)=>{
+                this.setState({ accountName: result.name, authority: result.authority, publicKey: result.publicKey  });
+            }).catch(err=> { console.log(err);  }); 
+        })
+        .catch(err=> { console.log(err);  })
     };
 
     //define onSubmit handler
@@ -169,7 +185,31 @@ class Register extends Component{
                         <span className="red-text">{errors.userType}</span>
                         {/* <label htmlFor="userType">User Type</label> */}
                 </div>
-                <br></br>
+                <div className="row">
+                    <div className="input-field col s4">
+                        <InputLabel id="connectScatterLabel">Connect to Scatter</InputLabel>
+                    </div>
+                    <div className="input-field col s2" style={{paddingTop: "8px"}}>
+                    <Link to="/" onClick={this.onScatterLoginClick} >Connect</Link>
+                    {/* <button
+                            style={{
+                                width: "100px",
+                                borderRadius: "3px",
+                                letterSpacing: "1.5px",
+                                marginTop: "1rem",
+                                marginRight: "1rem"
+                            }}
+                            onClick={this.onScatterLoginClick}
+                            className="btn btn-large waves-effect waves-light hoverable"
+                            >
+                            Connect
+                        </button> */}
+                    </div>
+                    <div className="input-field col s6" >
+                    <label>{ this.state.accountName? "[" + this.state.accountName: "" } { this.state.authority? "@"+this.state.authority : "" } 
+                            { this.state.publicKey? ", PubKey:"+ this.state.publicKey.substring(0, 15) + "...]" : "" } </label>
+                    </div>
+                </div>
                 <div className="col s12" style={{ paddingLeft: "11.250px" }}>
                     <button
                     style={{

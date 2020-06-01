@@ -96,7 +96,7 @@ class ViewJob extends Component{
         
     }
 
-    componentDidMount() {
+    componentDidMount() { 
         var currentJob =this.props.jobR.viewJob;
 
         ////this.props.getJobToViewAction(currentJob, this.props.history);
