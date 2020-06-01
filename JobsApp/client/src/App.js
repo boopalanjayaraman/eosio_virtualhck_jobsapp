@@ -18,6 +18,7 @@ import PrivateRoute from "./views/private-route/privateRoute";
 import Dashboard from "./views/dashboard/dashboard";
 import CreateJob from "./views/jobs/CreateJob";
 import ViewJob from "./views/jobs/ViewJob";
+import TestContract from "./views/jobs/TestJobContract";
 
 // Check for token to keep user logged in
 if (localStorage.jwtToken) {
@@ -53,6 +54,7 @@ class App extends Component {
                   <PrivateRoute exact path="/dashboard" component={Dashboard} />
                   <PrivateRoute exact path="/createJob" component={CreateJob} />
                   <PrivateRoute exact path="/viewJob" component={ViewJob} />
+                  <PrivateRoute exact path="/testJobContract" component={TestContract} />
                 </Switch>
           </div>
         </Router>

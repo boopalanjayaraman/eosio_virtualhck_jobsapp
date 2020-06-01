@@ -19,6 +19,11 @@ class Dashboard extends Component {
         this.props.history.push("/createJob"); 
     };
 
+    onTestContractClick =e=>{
+        e.preventDefault();
+        this.props.history.push("/testJobContract"); 
+    };
+
     render() {
         const { user } = this.props.auth;
 
@@ -58,6 +63,18 @@ class Dashboard extends Component {
                     className="btn btn-large waves-effect waves-light hoverable blue accent-3"
                     >
                     Create one
+                    </button>
+                    <button
+                    style={{
+                        width: "150px",
+                        borderRadius: "3px",
+                        letterSpacing: "1.5px",
+                        marginTop: "1rem"
+                    }}
+                    onClick={this.onTestContractClick}
+                    className="btn btn-large waves-effect waves-light hoverable blue accent-3"
+                    >
+                    Test Contract
                     </button>
                     <button
                     style={{

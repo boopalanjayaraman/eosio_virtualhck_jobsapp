@@ -14,7 +14,7 @@ class Landing extends Component{
                 <p className="flow-text grey-text text-darken-1">
                 A transparent, Community-driven, Smart-contracts based platform for Jobs. 
                 </p>
-                <p className="flow-text blue-text text-darken-1" style={{fontSize:"15px"}}>
+                <p className="flow-text gray-text text-darken-1" style={{fontSize:"15px"}}>
                     (Powered by EOS.IO)
                 </p>
                 <br />
