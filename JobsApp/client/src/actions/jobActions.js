@@ -11,7 +11,6 @@ export const createJobAction = (jobData, history) => dispatch => {
     .then(res => {
         const { _id } = res.data;
         dispatch(viewJob(_id));
-        alert("success: debug info: id="+ _id);
         history.push("/viewJob");
     })  
     .catch(err => 
@@ -32,12 +31,13 @@ export const editJobAction = (jobData, history) => dispatch => {
         );
 };
 
-export const getJobToViewAction = (jobData, history) => dispatch => {
+export const getJobToViewAction = (jobId, callback) => dispatch => {
     axios
-    .get("/api/jobs/get", { params:{ _id: jobData._id} })
+    .get("/api/jobs/get", { params:{ _id: jobId} })
     .then(res => {
         const { job } = res.data;
         dispatch(setCurrentJob(job));
+        callback();
     })  
     .catch(err => {
         dispatch(publishError(err));
@@ -57,17 +57,17 @@ export const getJobToEditAction = (jobData, history) => dispatch => {
 };
 
 //// browse jobs
-export const browseJobsAction = (userData, history) => dispatch => {
+export const browseJobsAction = (userData, callback) => dispatch => {
     axios
-    .post("/api/jobs/browse", userData)
+    .get("/api/jobs/browse", { params:{ userId: userData.userId} } )   
     .then(res => {
         const { jobs } = res.data;
         dispatch(browseJobs(jobs));
-        history.push("/browseJobs");
+        callback();
     })  
-    .catch(err => 
+    .catch(err => {
         dispatch(publishError(err))
-        );
+    });
 };
 
 
@@ -75,7 +75,7 @@ export const browseJobsAction = (userData, history) => dispatch => {
 export const setCurrentJob = (jobData) => {
     return {
             type: SET_CURRENT_JOB,
-            payload: { job: jobData }
+            payload: jobData
         };
 };
 

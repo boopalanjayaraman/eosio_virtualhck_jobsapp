@@ -94,31 +94,31 @@ class ViewJob extends Component{
             }
         };
         
+        this.onSetCurrentJob = this.onSetCurrentJob.bind(this);
     }
 
     componentDidMount() { 
-        var currentJob =this.props.jobR.viewJob;
 
-        ////this.props.getJobToViewAction(currentJob, this.props.history);
+        var viewJobInfo = this.props.jobR.viewJob;
+        if(viewJobInfo._id){
+            this.props.getJobToViewAction(viewJobInfo._id, this.onSetCurrentJob);
+        }
+        else{
+            this.props.history.push('/dashboard');
+        }
+    }
+
+    onSetCurrentJob(){
         
-        //// fetch the data
-        axios
-        .get("/api/jobs/get", { params:{ _id: '5ed0718a56be143118455626'} }) //currentJob._id //'5ed06d456419ba61a48a9150'
-        .then(res => {
-            var _job = res.data.job;
-            
-            _job.expiresOn = dateFormat(_job.expiresOn, format);
-            _job.startDate = dateFormat(_job.startDate, format);
-            _job.endDate = dateFormat(_job.endDate, format);
+        var _job = this.props.jobR.currentJob;
+        
+        _job.expiresOn = dateFormat(_job.expiresOn, format);
+        _job.startDate = dateFormat(_job.startDate, format);
+        _job.endDate = dateFormat(_job.endDate, format);
 
-            this.setState({
-                job: _job
-            }) ;
-        })  
-        .catch(err => {
-            throw err;
-        });
-         
+        this.setState({
+            job: _job
+        }) ; 
     }
 
     componentWillReceiveProps(nextProps) {
@@ -319,7 +319,7 @@ class ViewJob extends Component{
                         <InputLabel htmlFor="location">Location</InputLabel>
                             <Select
                                 id="location"
-                                value={ this.state.job.location.name}
+                                value={ this.state.job.location.name }
                                 className={classnames("input-field col s12", {})}
                                 >
                                     {this.locations.map((location) => (

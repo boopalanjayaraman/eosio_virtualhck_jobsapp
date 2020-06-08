@@ -66,15 +66,16 @@ class Dashboard extends Component {
                     </button>
                     <button
                     style={{
-                        width: "150px",
+                        width: "200px",
                         borderRadius: "3px",
                         letterSpacing: "1.5px",
-                        marginTop: "1rem"
+                        marginTop: "1rem",
+                        marginRight: "1rem"
                     }}
                     onClick={this.onTestContractClick}
                     className="btn btn-large waves-effect waves-light hoverable blue accent-3"
                     >
-                    Test Contract
+                    Job Contract
                     </button>
                     <button
                     style={{
